@@ -39,10 +39,10 @@ PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 all: $(BIN) $(OUT_PDF) #$(OUT_HTML)
 
 $(OUT_PDF): $(SRC)
-	$(PANDOC_CC) 								\
-		--template $(TEMPLATES)/default.latex	\
-		--latex-engine=pdflatex					\
-		$(DOCUMENT_SETTINGS_PDF)				\
+	$(PANDOC_CC) 									\
+		--template $(TEMPLATES)/latex/default.latex	\
+		--latex-engine=pdflatex						\
+		$(DOCUMENT_SETTINGS_PDF)					\
 		$^ -o $@
 
 $(BIN):
