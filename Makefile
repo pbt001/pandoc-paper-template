@@ -52,6 +52,13 @@ DOCUMENT_SETTINGS_PDF=	\
 	--variable classoption=final					\
 	--variable classoption=listof=nochaptergap		\
 	--variable documentclass=$(DOCUMENT_CLASS)		\
+	--variable babel-lang=german					\
+	--variable geometry=portrait					\
+	--variable geometry=bindingoffset=1.5cm			\
+	--variable geometry=inner=2.5cm					\
+	--variable geometry=outer=2.5cm					\
+	--variable geometry=top=3cm						\
+	--variable geometry=bottom=2cm					\
 	--include-before-body=$(BEFORE_LATEX)			\
 	--include-after-body=$(AFTER_LATEX)
 
