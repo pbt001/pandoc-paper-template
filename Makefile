@@ -11,17 +11,24 @@ TEMPLATES=./template
 ## Location of your working bibliography file
 BIB = $(shell find ./bib/ -name "*.bib")
 
+PANDOC=$(shell which pandoc)
+
 PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 
-all: $(OUT_PDF) #$(OUT_HTML)
+PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
+			  --filter pandoc-citeproc										\
+			  $(PANDOC_BIBLIO)
 
-$(OUT_PDF): $(BIN) $(SRC)
-	pandoc -r markdown+simple_tables+table_captions+yaml_metadata_block	\
-		--template $(TEMPLATES)/default.latex							\
-		--latex-engine=pdflatex											\
-		--filter pandoc-citeproc										\
-		$(PANDOC_BIBLIO)												\
-		$(SRC) -o $(OUT_PDF)
+PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
+
+all: $(BIN) $(OUT_PDF) #$(OUT_HTML)
+
+$(OUT_PDF): $(SRC)
+	$(PANDOC_CC) 								\
+		--template $(TEMPLATES)/default.latex	\
+		--latex-engine=pdflatex					\
+		$^ -o $@
+
 $(BIN):
 	mkdir -p $(BIN)
 
