@@ -2,6 +2,17 @@ BIN=./bin
 OUT_PDF=$(BIN)/paper.pdf
 OUT_HTML=$(BIN)/paper.html
 
+DOCUMENT_SETTINGS=	\
+	--variable fontsize=12pt						\
+	--variable papersize=a4paper					\
+	--variable classoption=bibtotoc					\
+	--variable classoption=cleardoubleempty			\
+	--variable classoption=idxtotoc					\
+	--variable classoption=ngerman					\
+	--variable classoption=openright				\
+	--variable classoption=final					\
+	--variable classoption=listof=nochaptergap		\
+
 ## All markdown files in the working directory
 SRC=$(wildcard src/*.md)
 
@@ -17,7 +28,8 @@ PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 
 PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
 			  --filter pandoc-citeproc										\
-			  $(PANDOC_BIBLIO)
+			  $(PANDOC_BIBLIO)												\
+			  $(DOCUMENT_SETTINGS)
 
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
