@@ -2,7 +2,9 @@ BIN=./bin
 OUT_PDF=$(BIN)/paper.pdf
 OUT_HTML=$(BIN)/paper.html
 
-DOCUMENT_SETTINGS=	\
+DOCUMENT_CLASS=scrbook
+
+DOCUMENT_SETTINGS_PDF=	\
 	--variable fontsize=12pt						\
 	--variable papersize=a4paper					\
 	--variable classoption=bibtotoc					\
@@ -12,6 +14,8 @@ DOCUMENT_SETTINGS=	\
 	--variable classoption=openright				\
 	--variable classoption=final					\
 	--variable classoption=listof=nochaptergap		\
+	--variable documentclass=$(DOCUMENT_CLASS)
+
 
 ## All markdown files in the working directory
 SRC=$(wildcard src/*.md)
@@ -28,8 +32,7 @@ PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 
 PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
 			  --filter pandoc-citeproc										\
-			  $(PANDOC_BIBLIO)												\
-			  $(DOCUMENT_SETTINGS)
+			  $(PANDOC_BIBLIO)
 
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
@@ -39,6 +42,7 @@ $(OUT_PDF): $(SRC)
 	$(PANDOC_CC) 								\
 		--template $(TEMPLATES)/default.latex	\
 		--latex-engine=pdflatex					\
+		$(DOCUMENT_SETTINGS_PDF)				\
 		$^ -o $@
 
 $(BIN):
