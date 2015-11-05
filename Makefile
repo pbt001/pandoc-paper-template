@@ -44,9 +44,9 @@ AFTER_HTML=$(AFTER_DIR)/html5.html
 DOCUMENT_SETTINGS_PDF=	\
 	--variable fontsize=12pt						\
 	--variable papersize=a4paper					\
-	--variable classoption=bibtotoc					\
-	--variable classoption=cleardoubleempty			\
-	--variable classoption=idxtotoc					\
+	--variable classoption=bibliography=totoc		\
+	--variable classoption=cleardoublepage=empty	\
+	--variable classoption=index=totoc				\
 	--variable classoption=ngerman					\
 	--variable classoption=openright				\
 	--variable classoption=final					\
