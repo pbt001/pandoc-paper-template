@@ -1,3 +1,11 @@
+#
+#
+#
+# Variables
+#
+#
+#
+
 BIN=./bin
 OUT_PDF=$(BIN)/paper.pdf
 OUT_HTML=$(BIN)/paper.html
@@ -52,6 +60,26 @@ DOCUMENT_SETTINGS_HTML=			\
 	--include-before-body=$(BEFORE_HTML)			\
 	--include-after-body=$(AFTER_HTML)
 
+#
+#
+#
+# Binary and argument construction
+#
+#
+#
+
+ECHO_CMD=$(shell which echo)
+ECHO_ARG=-e
+ECHO=$(ECHO_CMD) $(ECHO_ARG)
+
+MKDIR_CMD=$(shell which mkdir)
+MKDIR_ARG=-p
+MKDIR=$(MKDIR_CMD) $(MKDIR_ARG)
+
+RM_CMD=$(shell which rm)
+RM_ARG=-fr
+RM=$(RM_CMD) $(RM_ARG)
+
 PANDOC=$(shell which pandoc)
 
 PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
@@ -70,13 +98,16 @@ PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
 # Main task
 all: pdf html
+	@$(ECHO) "\t[ALL   ]"
 
 # PDF task
 pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX) $(OUT_PDF)
+	@$(ECHO) "\t[PDF   ]"
 
 # PDF output task
 $(OUT_PDF): $(SRC)
-	$(PANDOC_CC) 									\
+	@$(ECHO) "\t[PANDOC]"
+	@$(PANDOC_CC) 									\
 		--template $(TEMPLATES)/latex/default.latex	\
 		--latex-engine=pdflatex						\
 		$(DOCUMENT_SETTINGS_PDF)					\
@@ -84,10 +115,12 @@ $(OUT_PDF): $(SRC)
 
 # HTML task
 html: $(BIN) $(BEFORE_HTML) $(AFTER_HTML) $(OUT_HTML)
+	@$(ECHO) "\t[HTML  ]"
 
 # HTML output task
 $(OUT_HTML): $(SRC)
-	$(PANDOC_CC) 									\
+	@$(ECHO) "\t[PANDOC]"
+	@$(PANDOC_CC) 									\
 		--template=$(TEMPLATES)/html/default.html5	\
 		-S											\
 		--css=$(CSS_DIR)							\
@@ -95,9 +128,11 @@ $(OUT_HTML): $(SRC)
 
 # create bin directory
 $(BIN):
-	mkdir -p $(BIN)
+	@$(ECHO) "\t[MKDIR ]"
+	@$(MKDIR) $(BIN)
 
 # cleanup task
 clean:
-	rm -fr $(BIN)
+	@$(ECHO) "\t[RM    ]"
+	@$(RM) $(BIN)
 
