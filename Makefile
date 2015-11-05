@@ -47,6 +47,10 @@ DOCUMENT_SETTINGS_PDF=	\
 	--include-before-body=$(BEFORE_LATEX)			\
 	--include-after-body=$(AFTER_LATEX)
 
+DOCUMENT_SETTINGS_HTML=			\
+	--variable lang=de 			\
+	--include-before-body=$(BEFORE_HTML)			\
+	--include-after-body=$(AFTER_HTML)
 
 PANDOC=$(shell which pandoc)
 
@@ -76,6 +80,17 @@ $(OUT_PDF): $(SRC)
 		--template $(TEMPLATES)/latex/default.latex	\
 		--latex-engine=pdflatex						\
 		$(DOCUMENT_SETTINGS_PDF)					\
+		$^ -o $@
+
+# HTML task
+html: $(BIN) $(BEFORE_HTML) $(AFTER_HTML) $(OUT_HTML)
+
+# HTML output task
+$(OUT_HTML): $(SRC)
+	$(PANDOC_CC) 									\
+		--template=$(TEMPLATES)/html/default.html5	\
+		-S											\
+		--css=$(CSS_DIR)							\
 		$^ -o $@
 
 # create bin directory
