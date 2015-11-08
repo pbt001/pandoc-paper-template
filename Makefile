@@ -6,8 +6,7 @@
 #
 #
 
-BIN=./bin
-OUT_PDF=$(BIN)/paper.pdf
+BIN=bin
 OUT_HTML=$(BIN)/paper.html
 
 DOCUMENT_CLASS=scrbook
@@ -98,6 +97,11 @@ PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
 
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
+PANDOC_CC_PDF=$(PANDOC) 												\
+			  $(PANDOC_PARAMS) 											\
+			  --latex-engine=pdflatex 									\
+			  $(DOCUMENT_SETTINGS_PDF)
+
 #
 #
 # Tasks
@@ -109,17 +113,16 @@ all: pdf html
 	@$(ECHO) "\t[ALL   ]"
 
 # PDF task
-pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX) $(OUT_PDF)
-	@$(ECHO) "\t[PDF   ]"
+pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX) $(BIN)/default.pdf
 
-# PDF output task
-$(OUT_PDF): $(SRC)
-	@$(ECHO) "\t[PANDOC]"
-	@$(PANDOC_CC) 									\
-		--template $(TEMPLATES)/latex/default.latex	\
-		--latex-engine=pdflatex						\
-		$(DOCUMENT_SETTINGS_PDF)					\
-		$^ -o $@
+$(BIN)/%.pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX)
+	@$(ECHO) "\t[MKDIR ]\t$(@D)"
+	@$(MKDIR) $(@D)
+	@$(ECHO) "\t[PANDOC]\t$(@D)/${@F:.pdf=.latex}"
+	@$(PANDOC_CC_PDF) \
+		--template $(TEMPLATES)/$(subst bin,latex,$(@D))/$(subst .pdf,,$(@F))/template.latex \
+		$(SRC) -o $@
+	@$(ECHO) "\t[OUT   ]\t$@"
 
 # HTML task
 html: $(BIN) $(BEFORE_HTML) $(AFTER_HTML) $(OUT_HTML)
@@ -136,7 +139,7 @@ $(OUT_HTML): $(SRC)
 
 # create bin directory
 $(BIN):
-	@$(ECHO) "\t[MKDIR ]"
+	@$(ECHO) "\t[MKDIR ]\t$@"
 	@$(MKDIR) $(BIN)
 
 # cleanup task
