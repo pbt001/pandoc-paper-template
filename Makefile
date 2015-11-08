@@ -139,3 +139,14 @@ clean:
 	@$(ECHO) "\t[RM    ] $@"
 	@$(RM) $(OUT)
 
+
+#
+#
+# Custom-template tasks
+#
+#
+
+asme: asme-one
+
+asme-one: $(BIN)/asme/one-column.pdf
+
