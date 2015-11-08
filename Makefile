@@ -42,6 +42,7 @@ BEFORE_HTML=$(BEFORE_DIR)/html5.html
 AFTER_HTML=$(AFTER_DIR)/html5.html
 
 DOCUMENT_SETTINGS_PDF=	\
+	--listings			\
 	--variable fontsize=12pt						\
 	--variable papersize=a4paper					\
 	--variable classoption=bibliography=totoc		\
