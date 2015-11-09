@@ -1,7 +1,7 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
-\input{template/latex/default/settings/variables}
-\input{template/latex/default/settings/commands}
+\input{settings/variables}
+\input{settings/commands}
 
 $if(links-as-notes)$
     % Make links footnotes instead of hotlinks:

@@ -6,13 +6,15 @@
 #
 #
 
-BIN=bin
-OUT_HTML=$(BIN)/paper.html
+export MAKE_FLAGS=--no-print-directory
+
+export OUT=$(shell pwd)/bin
+OUT_HTML=$(OUT)/paper.html
 
 DOCUMENT_CLASS=scrbook
 
 ## Source directory
-SRC_DIR=./src
+SRC_DIR=$(shell pwd)/src
 
 ## CSS directory
 CSS_DIR=$(SRC_DIR)/css
@@ -21,10 +23,10 @@ CSS_DIR=$(SRC_DIR)/css
 export SRC=$(shell find $(SRC_DIR) -name "*.md" | sort)
 
 ## Templates
-TEMPLATES=./template
+TEMPLATES=$(shell pwd)/template
 
 ## Location of your working bibliography file
-BIB = $(shell find ./bib/ -name "*.bib")
+BIB=$(shell find $(shell pwd)/bib/ -name "*.bib")
 
 # directory for before-body files
 BEFORE_DIR=$(SRC_DIR)/before
@@ -78,14 +80,17 @@ DOCUMENT_SETTINGS_HTML=			\
 ECHO_CMD=$(shell which echo)
 ECHO_ARG=-e
 ECHO=$(ECHO_CMD) $(ECHO_ARG)
+export ECHO
 
 MKDIR_CMD=$(shell which mkdir)
 MKDIR_ARG=-p
 MKDIR=$(MKDIR_CMD) $(MKDIR_ARG)
+export MKDIR
 
 RM_CMD=$(shell which rm)
 RM_ARG=-fr
 RM=$(RM_CMD) $(RM_ARG)
+export RM
 
 PANDOC=$(shell which pandoc)
 
@@ -101,6 +106,7 @@ PANDOC_CC_PDF=$(PANDOC) 												\
 			  $(PANDOC_PARAMS) 											\
 			  --latex-engine=pdflatex 									\
 			  $(DOCUMENT_SETTINGS_PDF)
+export PANDOC_CC_PDF
 
 #
 #
@@ -109,41 +115,17 @@ PANDOC_CC_PDF=$(PANDOC) 												\
 #
 
 # Main task
-all: pdf html
+all:
 	@$(ECHO) "\t[ALL   ]"
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)
 
-# PDF task
-pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX) $(BIN)/default.pdf
-
-$(BIN)/%.pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX)
-	@$(ECHO) "\t[MKDIR ]\t$(@D)"
-	@$(MKDIR) $(@D)
-	@$(ECHO) "\t[PANDOC]\t$(@D)/${@F:.pdf=.latex}"
-	@$(PANDOC_CC_PDF) \
-		--template $(TEMPLATES)/$(subst bin,latex,$(@D))/$(subst .pdf,,$(@F))/template.latex \
-		$(SRC) -o $@
-	@$(ECHO) "\t[OUT   ]\t$@"
-
-# HTML task
-html: $(BIN) $(BEFORE_HTML) $(AFTER_HTML) $(OUT_HTML)
-	@$(ECHO) "\t[HTML  ]"
-
-# HTML output task
-$(OUT_HTML): $(SRC)
-	@$(ECHO) "\t[PANDOC]"
-	@$(PANDOC_CC) 									\
-		--template=$(TEMPLATES)/html/default.html5	\
-		-S											\
-		--css=$(CSS_DIR)							\
-		$^ -o $@
-
-# create bin directory
-$(BIN):
-	@$(ECHO) "\t[MKDIR ]\t$@"
-	@$(MKDIR) $(BIN)
+# create out directory
+$(OUT):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT)
 
 # cleanup task
 clean:
-	@$(ECHO) "\t[RM    ]"
-	@$(RM) $(BIN)
+	@$(ECHO) "\t[RM    ] $@"
+	@$(RM) $(OUT)
 
