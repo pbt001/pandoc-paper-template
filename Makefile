@@ -61,6 +61,7 @@ DOCUMENT_SETTINGS_PDF=	\
 	--variable geometry=outer=2.5cm					\
 	--variable geometry=top=3cm						\
 	--variable geometry=bottom=2cm					\
+	--variable linestretch=1.5 						\
 	--include-before-body=$(BEFORE_LATEX)			\
 	--include-after-body=$(AFTER_LATEX)
 
@@ -96,7 +97,7 @@ PANDOC=$(shell which pandoc)
 
 PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 
-PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
+PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block+definition_lists	\
 			  --filter pandoc-citeproc										\
 			  $(PANDOC_BIBLIO)
 
