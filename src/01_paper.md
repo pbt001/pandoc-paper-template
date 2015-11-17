@@ -7,5 +7,4 @@ author:
 date: January 2016
 ...
 
-This is an example.
-
+This is an example. [Example]
