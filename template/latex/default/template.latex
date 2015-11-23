@@ -3,6 +3,10 @@
 \input{settings/variables}
 \input{settings/commands}
 
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
 $if(links-as-notes)$
     % Make links footnotes instead of hotlinks:
     \renewcommand{\href}[2]{#2\footnote{\url{#1}}}
