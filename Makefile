@@ -44,7 +44,7 @@ AFTER_HTML=$(AFTER_DIR)/html5.html
 
 DOCUMENT_SETTINGS_PDF=	\
 	--listings			\
-	--variable fontsize=12pt						\
+	--variable fontsize=$(SETTING_FONTSIZE)			\
 	--variable papersize=a4paper					\
 	--variable classoption=bibliography=totoc		\
 	--variable classoption=cleardoublepage=empty	\
@@ -138,4 +138,17 @@ $(OUT_HTML):
 clean:
 	@$(ECHO) "\t[RM    ] $@"
 	@$(RM) $(OUT)
+
+
+#
+#
+# Custom-template tasks
+#
+#
+
+asme: asme-one
+
+asme-one: DOCUMENT_CLASS = asme2ej
+asme-one: SETTING_FONTSIZE = 10pt
+asme-one: $(BIN)/asme/one-column.pdf
 
