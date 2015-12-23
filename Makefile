@@ -18,7 +18,7 @@ SRC_DIR=./src
 CSS_DIR=$(SRC_DIR)/css
 
 ## All markdown files in the working directory
-SRC=$(wildcard $(SRC_DIR)/*.md)
+export SRC=$(shell find $(SRC_DIR) -name "*.md" | sort)
 
 ## Templates
 TEMPLATES=./template
