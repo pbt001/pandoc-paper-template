@@ -139,16 +139,3 @@ clean:
 	@$(ECHO) "\t[RM    ] $@"
 	@$(RM) $(OUT)
 
-
-#
-#
-# Custom-template tasks
-#
-#
-
-asme: asme-one
-
-asme-one: DOCUMENT_CLASS = asme2ej
-asme-one: SETTING_FONTSIZE = 10pt
-asme-one: $(BIN)/asme/one-column.pdf
-
