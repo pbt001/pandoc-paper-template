@@ -9,7 +9,7 @@
 export MAKE_FLAGS=--no-print-directory
 
 export OUT=$(shell pwd)/bin
-OUT_HTML=$(OUT)/paper.html
+export OUT_HTML=$(OUT)/html/
 
 DOCUMENT_CLASS=scrbook
 
@@ -66,6 +66,8 @@ DOCUMENT_SETTINGS_PDF=	\
 	--include-after-body=$(AFTER_LATEX)
 
 DOCUMENT_SETTINGS_HTML=			\
+	--table-of-contents			\
+	--webtex					\
 	--variable lang=de 			\
 	--include-before-body=$(BEFORE_HTML)			\
 	--include-after-body=$(AFTER_HTML)
@@ -109,6 +111,8 @@ PANDOC_CC_PDF=$(PANDOC) 												\
 			  $(DOCUMENT_SETTINGS_PDF)
 export PANDOC_CC_PDF
 
+export PANDOC_CC_HTML=$(PANDOC) $(PANDOC_PARAMS) $(DOCUMENT_SETTINGS_HTML)
+
 #
 #
 # Tasks
@@ -124,6 +128,11 @@ all:
 $(OUT):
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT)
+
+# create html out directory
+$(OUT_HTML):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT_HTML)
 
 # cleanup task
 clean:
