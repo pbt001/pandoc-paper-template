@@ -1,15 +1,11 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
 \input{settings/variables}
 \input{settings/commands}
-
-\providecommand{\tightlist}{%
-      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-}
-
-\providecommand{\tightlist}{%
-      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-}
 
 $if(links-as-notes)$
     % Make links footnotes instead of hotlinks:
@@ -202,7 +198,7 @@ $endif$
 
 $if(natbib)$
     \usepackage{natbib}
-    \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+    \bibliographystyle{alphadin}
 $endif$
 
 $if(biblatex)$
@@ -267,15 +263,25 @@ $for(header-includes)$
   $header-includes$
 $endfor$
 
+\input{settings}
+
 \begin{document}
-    $if(title)$
-        \maketitle
-    $endif$
+    \setcounter{secnumdepth}{3}
+
+    \input{title}
+    \cleardoubleemptypage
+    \frontmatter
 
     $if(abstract)$
         \begin{abstract}
           $abstract$
         \end{abstract}
+        \cleardoubleemptypage
+    $endif$
+
+    $if(slogan)$
+        $slogan$
+        \cleardoubleemptypage
     $endif$
 
     $for(include-before)$
@@ -284,21 +290,40 @@ $endfor$
 
     $if(toc)$
         {
-          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
-          \setcounter{tocdepth}{$toc-depth$}
-          \tableofcontents
+            \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+            \setcounter{tocdepth}{$toc-depth$}
+            \addcontentsline{toc}{chapter}{Table of contents}
+            \tableofcontents
+            \cleardoubleemptypage
         }
     $endif$
 
     $if(lot)$
+        \phantomsection
+        \addcontentsline{toc}{chapter}{\listtablename}
         \listoftables
+        \cleardoubleemptypage
     $endif$
 
     $if(lof)$
+        \addcontentsline{toc}{chapter}{\listfigurename}
         \listoffigures
+        \cleardoubleemptypage
     $endif$
 
+    $if(lol)$
+        \addcontentsline{toc}{chapter}{Listings}
+        \lstlistoflistings
+        \cleardoubleemptypage
+    $endif$
+
+    \mainmatter
+
     $body$
+    \cleardoubleemptypage
+
+    \glsaddall
+    \printglossaries
 
     $if(natbib)$
         $if(bibliography)$
@@ -309,6 +334,7 @@ $endfor$
                     \renewcommand\refname{$biblio-title$}
                 $endif$
             $endif$
+            \singlespacing
             \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
         $endif$
     $endif$
