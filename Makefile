@@ -9,7 +9,7 @@
 export MAKE_FLAGS=--no-print-directory
 
 export OUT=$(shell pwd)/bin
-OUT_HTML=$(OUT)/paper.html
+export OUT_HTML=$(OUT)/html/
 
 DOCUMENT_CLASS=scrbook
 
@@ -124,6 +124,11 @@ all:
 $(OUT):
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT)
+
+# create html out directory
+$(OUT_HTML):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT_HTML)
 
 # cleanup task
 clean:
