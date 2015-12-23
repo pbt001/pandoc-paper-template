@@ -66,6 +66,8 @@ DOCUMENT_SETTINGS_PDF=	\
 	--include-after-body=$(AFTER_LATEX)
 
 DOCUMENT_SETTINGS_HTML=			\
+	--table-of-contents			\
+	--webtex					\
 	--variable lang=de 			\
 	--include-before-body=$(BEFORE_HTML)			\
 	--include-after-body=$(AFTER_HTML)
