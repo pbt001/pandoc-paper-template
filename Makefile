@@ -9,6 +9,7 @@
 export MAKE_FLAGS=--no-print-directory
 
 export OUT=$(shell pwd)/bin
+export OUT_LATEX=$(OUT)/latex/
 export OUT_HTML=$(OUT)/html/
 
 DOCUMENT_CLASS=scrbook
@@ -139,16 +140,18 @@ clean:
 	@$(ECHO) "\t[RM    ] $@"
 	@$(RM) $(OUT)
 
-
 #
-#
-# Custom-template tasks
-#
+# Per-template tasks
 #
 
-asme: asme-one
+default:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
 
-asme-one: DOCUMENT_CLASS = asme2ej
-asme-one: SETTING_FONTSIZE = 10pt
-asme-one: $(BIN)/asme/one-column.pdf
+hs-furtwangen:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
+
+asme-one-col: export OUT_LATEX_ASME = $(OUT_LATEX)/asme/
+asme-one-col:
+	@$(MKDIR) $(OUT_LATEX_ASME)
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/asme/one-column/
 
