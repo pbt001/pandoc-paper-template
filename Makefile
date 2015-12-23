@@ -140,3 +140,18 @@ clean:
 	@$(ECHO) "\t[RM    ] $@"
 	@$(RM) $(OUT)
 
+#
+# Per-template tasks
+#
+
+default:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
+
+hs-furtwangen:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
+
+asme-one-col: export OUT_LATEX_ASME = $(OUT_LATEX)/asme/
+asme-one-col:
+	@$(MKDIR) $(OUT_LATEX_ASME)
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/asme/one-column/
+
