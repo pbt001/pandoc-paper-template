@@ -9,6 +9,7 @@
 export MAKE_FLAGS=--no-print-directory
 
 export OUT=$(shell pwd)/bin
+export OUT_LATEX=$(OUT)/latex/
 export OUT_HTML=$(OUT)/html/
 
 DOCUMENT_CLASS=scrbook
