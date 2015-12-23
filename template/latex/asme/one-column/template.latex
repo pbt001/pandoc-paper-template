@@ -2,6 +2,93 @@
 
 \usepackage{epsfig} %% for loading postscript figures
 
+\usepackage[
+    colorlinks=false,
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black,
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=3,
+    bookmarksnumbered,
+    plainpages=false,
+    pdfpagelabels=true,
+    hyperfootnotes=true,
+    ]{hyperref}
+
+\hypersetup{breaklinks=true,
+    unicode=true,$if(title-meta)$
+    pdftitle={$title-meta$},$endif$$if(author-meta)$
+    pdfauthor={$author-meta$},$endif$$if(subtitle)$
+    pdfsubject={$subtitle$},$endif$$if(keywords)$
+    pdfkeywords={$keywords$},$endif$
+    colorlinks=true,
+    citecolor=$if(citecolor)$$citecolor$$else$black$endif$,
+    urlcolor=$if(urlcolor)$$urlcolor$$else$black$endif$,
+    linkcolor=$if(linkcolor)$$linkcolor$$else$black$endif$,
+    pdfborder={0 0 0}$if(hidelinks)$,
+        hidelinks
+    $endif$
+}
+
+
+
+$if(lang)$
+    \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+        \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$$sep$,$endfor$,main=$babel-lang$]{babel}
+        $babel-newcommands$
+    \else
+        \usepackage{polyglossia}
+        \setmainlanguage[$polyglossia-lang.options$]{$polyglossia-lang.name$}
+        $for(polyglossia-otherlangs)$
+            \setotherlanguage[$polyglossia-otherlangs.options$]{$polyglossia-otherlangs.name$}
+        $endfor$
+    \fi
+$endif$
+
+$if(natbib)$
+    \usepackage{natbib}
+    \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+
+$if(graphics)$
+    \ifx\pdftexversion\undefined
+        \usepackage[dvips]{graphicx}
+    \else
+        \usepackage[pdftex]{graphicx}
+        \DeclareGraphicsRule{*}{mps}{*}{}
+    \fi
+    \usepackage{grffile}
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+    \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+    \makeatother
+    % Scale images if necessary, so that they will not overflow the page
+    % margins by default, and it is still possible to overwrite the defaults
+    % using explicit options in \includegraphics[width, height, ...]{}
+    \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+
+$if(listings)$
+    \usepackage{listings}
+$endif$
+
+$if(lhs)$
+    \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+$if(verbatim-in-note)$
+    \usepackage{fancyvrb}
+    \VerbatimFootnotes % allows verbatim text in footnotes
+$endif$
+
+$if(tables)$
+    \usepackage{longtable,booktabs}
+$endif$
+
+\usepackage{amssymb,amsmath}
+
 %% The class has several options
 %  onecolumn/twocolumn - format for one or two columns per page
 %  10pt/11pt/12pt - use 10, 11, or 12 point font
