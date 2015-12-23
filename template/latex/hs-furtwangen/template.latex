@@ -1,5 +1,67 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
+\providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
+\input{settings/variables}
+\input{settings/commands}
+
+$if(links-as-notes)$
+    % Make links footnotes instead of hotlinks:
+    \renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+$if(strikeout)$
+    \usepackage[normalem]{ulem}
+    % avoid problems with \sout in headers with hyperref:
+    \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+
+$if(indent)$
+$else$
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}
+$endif$
+
+$if(numbersections)$
+  \setcounter{secnumdepth}{5}
+$else$
+  \setcounter{secnumdepth}{0}
+$endif$
+
+$if(dir)$
+  \ifxetex
+      % load bidi as late as possible as it modifies e.g. graphicx
+      $if(latex-dir-rtl)$
+          \usepackage[RTLdocument]{bidi}
+      $else$
+          \usepackage{bidi}
+      $endif$
+  \fi
+  \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+      \TeXXeTstate=1
+      \newcommand{\RL}[1]{\beginR #1\endR}
+      \newcommand{\LR}[1]{\beginL #1\endL}
+      \newenvironment{RTL}{\beginR}{\endR}
+      \newenvironment{LTR}{\beginL}{\endL}
+  \fi
+$endif$
+
+$if(subparagraph)$
+$else$
+    % Redefines (sub)paragraphs to behave more like sections
+    \ifx\paragraph\undefined\else
+        \let\oldparagraph\paragraph
+        \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+    \fi
+
+    \ifx\subparagraph\undefined\else
+        \let\oldsubparagraph\subparagraph
+        \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+    \fi
+$endif$
+
 $if(fontfamily)$
     \usepackage[$fontfamilyoptions$]{$fontfamily$}
 $else$
@@ -7,13 +69,29 @@ $else$
 $endif$
 
 $if(linestretch)$
-\usepackage{setspace}
-\setstretch{$linestretch$}
+    \usepackage{setspace}
+    \setstretch{$linestretch$}
 $endif$
 
-\usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
+\usepackage{dingbat}
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[hyphens]{url}
+\usepackage[babel, german=quotes]{csquotes}
+\usepackage{index}
+\usepackage[toc]{glossaries}
+\usepackage{mathtools}
+\usepackage{tocloft}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{chngcntr}
+\usepackage{fancyhdr}
+\usepackage{bibgerm}
+\usepackage[printonlyused]{acronym}
+
+\makeindex
 
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
     \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
@@ -68,7 +146,24 @@ $if(geometry)$
     \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $endif$
 
-\usepackage{hyperref}
+\usepackage[
+    colorlinks=false,
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black,
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=3,
+    bookmarksnumbered,
+    plainpages=false,
+    pdfpagelabels=true,
+    hyperfootnotes=true,
+    pdftitle={\docTitle},
+    %pdfauthor={\docFirstname~\docLastname},
+    %pdfcreator={\docFirstname~\docLastname}
+    ]{hyperref}
+
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 
 \hypersetup{breaklinks=true,
@@ -103,7 +198,7 @@ $endif$
 
 $if(natbib)$
     \usepackage{natbib}
-    \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+    \bibliographystyle{alphadin}
 $endif$
 
 $if(biblatex)$
@@ -135,7 +230,13 @@ $if(tables)$
 $endif$
 
 $if(graphics)$
-    \usepackage{graphicx,grffile}
+    \ifx\pdftexversion\undefined
+        \usepackage[dvips]{graphicx}
+    \else
+        \usepackage[pdftex]{graphicx}
+        \DeclareGraphicsRule{*}{mps}{*}{}
+    \fi
+    \usepackage{grffile}
     \makeatletter
     \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
     \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -146,51 +247,7 @@ $if(graphics)$
     \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
 
-$if(links-as-notes)$
-    % Make links footnotes instead of hotlinks:
-    \renewcommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
-
-$if(strikeout)$
-    \usepackage[normalem]{ulem}
-    % avoid problems with \sout in headers with hyperref:
-    \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
-$endif$
-
-$if(indent)$
-$else$
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}
-$endif$
-
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-}
-
-$if(numbersections)$
-  \setcounter{secnumdepth}{5}
-$else$
-  \setcounter{secnumdepth}{0}
-$endif$
-
-$if(dir)$
-  \ifxetex
-      % load bidi as late as possible as it modifies e.g. graphicx
-      $if(latex-dir-rtl)$
-          \usepackage[RTLdocument]{bidi}
-      $else$
-          \usepackage{bidi}
-      $endif$
-  \fi
-  \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-      \TeXXeTstate=1
-      \newcommand{\RL}[1]{\beginR #1\endR}
-      \newcommand{\LR}[1]{\beginL #1\endL}
-      \newenvironment{RTL}{\beginR}{\endR}
-      \newenvironment{LTR}{\beginL}{\endL}
-  \fi
-$endif$
+\usepackage{amssymb,amsmath}
 
 $if(title)$
   \title{$title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$}
@@ -206,29 +263,25 @@ $for(header-includes)$
   $header-includes$
 $endfor$
 
-$if(subparagraph)$
-$else$
-    % Redefines (sub)paragraphs to behave more like sections
-    \ifx\paragraph\undefined\else
-        \let\oldparagraph\paragraph
-        \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-    \fi
-
-    \ifx\subparagraph\undefined\else
-        \let\oldsubparagraph\subparagraph
-        \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-    \fi
-$endif$
+\input{settings}
 
 \begin{document}
-    $if(title)$
-        \maketitle
-    $endif$
+    \setcounter{secnumdepth}{3}
+
+    \input{title}
+    \cleardoubleemptypage
+    \frontmatter
 
     $if(abstract)$
         \begin{abstract}
           $abstract$
         \end{abstract}
+        \cleardoubleemptypage
+    $endif$
+
+    $if(slogan)$
+        $slogan$
+        \cleardoubleemptypage
     $endif$
 
     $for(include-before)$
@@ -237,21 +290,40 @@ $endif$
 
     $if(toc)$
         {
-          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
-          \setcounter{tocdepth}{$toc-depth$}
-          \tableofcontents
+            \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+            \setcounter{tocdepth}{$toc-depth$}
+            \addcontentsline{toc}{chapter}{Table of contents}
+            \tableofcontents
+            \cleardoubleemptypage
         }
     $endif$
 
     $if(lot)$
+        \phantomsection
+        \addcontentsline{toc}{chapter}{\listtablename}
         \listoftables
+        \cleardoubleemptypage
     $endif$
 
     $if(lof)$
+        \addcontentsline{toc}{chapter}{\listfigurename}
         \listoffigures
+        \cleardoubleemptypage
     $endif$
 
+    $if(lol)$
+        \addcontentsline{toc}{chapter}{Listings}
+        \lstlistoflistings
+        \cleardoubleemptypage
+    $endif$
+
+    \mainmatter
+
     $body$
+    \cleardoubleemptypage
+
+    \glsaddall
+    \printglossaries
 
     $if(natbib)$
         $if(bibliography)$
@@ -262,6 +334,7 @@ $endif$
                     \renewcommand\refname{$biblio-title$}
                 $endif$
             $endif$
+            \singlespacing
             \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
         $endif$
     $endif$

@@ -6,26 +6,27 @@
 #
 #
 
-BIN=./bin
-OUT_PDF=$(BIN)/paper.pdf
-OUT_HTML=$(BIN)/paper.html
+export MAKE_FLAGS=--no-print-directory
+
+export OUT=$(shell pwd)/bin
+OUT_HTML=$(OUT)/paper.html
 
 DOCUMENT_CLASS=scrbook
 
 ## Source directory
-SRC_DIR=./src
+SRC_DIR=$(shell pwd)/src
 
 ## CSS directory
 CSS_DIR=$(SRC_DIR)/css
 
 ## All markdown files in the working directory
-SRC=$(wildcard $(SRC_DIR)/*.md)
+export SRC=$(shell find $(SRC_DIR) -name "*.md" | sort)
 
 ## Templates
-TEMPLATES=./template
+TEMPLATES=$(shell pwd)/template
 
 ## Location of your working bibliography file
-BIB = $(shell find ./bib/ -name "*.bib")
+BIB=$(shell find $(shell pwd)/bib/ -name "*.bib")
 
 # directory for before-body files
 BEFORE_DIR=$(SRC_DIR)/before
@@ -42,16 +43,25 @@ BEFORE_HTML=$(BEFORE_DIR)/html5.html
 AFTER_HTML=$(AFTER_DIR)/html5.html
 
 DOCUMENT_SETTINGS_PDF=	\
+	--listings			\
 	--variable fontsize=12pt						\
 	--variable papersize=a4paper					\
-	--variable classoption=bibtotoc					\
-	--variable classoption=cleardoubleempty			\
-	--variable classoption=idxtotoc					\
+	--variable classoption=bibliography=totoc		\
+	--variable classoption=cleardoublepage=empty	\
+	--variable classoption=index=totoc				\
 	--variable classoption=ngerman					\
 	--variable classoption=openright				\
 	--variable classoption=final					\
 	--variable classoption=listof=nochaptergap		\
 	--variable documentclass=$(DOCUMENT_CLASS)		\
+	--variable babel-lang=german					\
+	--variable geometry=portrait					\
+	--variable geometry=bindingoffset=1.5cm			\
+	--variable geometry=inner=2.5cm					\
+	--variable geometry=outer=2.5cm					\
+	--variable geometry=top=3cm						\
+	--variable geometry=bottom=2cm					\
+	--variable linestretch=1.5 						\
 	--include-before-body=$(BEFORE_LATEX)			\
 	--include-after-body=$(AFTER_LATEX)
 
@@ -71,24 +81,33 @@ DOCUMENT_SETTINGS_HTML=			\
 ECHO_CMD=$(shell which echo)
 ECHO_ARG=-e
 ECHO=$(ECHO_CMD) $(ECHO_ARG)
+export ECHO
 
 MKDIR_CMD=$(shell which mkdir)
 MKDIR_ARG=-p
 MKDIR=$(MKDIR_CMD) $(MKDIR_ARG)
+export MKDIR
 
 RM_CMD=$(shell which rm)
 RM_ARG=-fr
 RM=$(RM_CMD) $(RM_ARG)
+export RM
 
 PANDOC=$(shell which pandoc)
 
 PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 
-PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block	\
+PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block+definition_lists	\
 			  --filter pandoc-citeproc										\
 			  $(PANDOC_BIBLIO)
 
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
+
+PANDOC_CC_PDF=$(PANDOC) 												\
+			  $(PANDOC_PARAMS) 											\
+			  --latex-engine=pdflatex 									\
+			  $(DOCUMENT_SETTINGS_PDF)
+export PANDOC_CC_PDF
 
 #
 #
@@ -97,42 +116,17 @@ PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 #
 
 # Main task
-all: pdf html
+all:
 	@$(ECHO) "\t[ALL   ]"
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)
 
-# PDF task
-pdf: $(BIN) $(BEFORE_LATEX) $(AFTER_LATEX) $(OUT_PDF)
-	@$(ECHO) "\t[PDF   ]"
-
-# PDF output task
-$(OUT_PDF): $(SRC)
-	@$(ECHO) "\t[PANDOC]"
-	@$(PANDOC_CC) 									\
-		--template $(TEMPLATES)/latex/default.latex	\
-		--latex-engine=pdflatex						\
-		$(DOCUMENT_SETTINGS_PDF)					\
-		$^ -o $@
-
-# HTML task
-html: $(BIN) $(BEFORE_HTML) $(AFTER_HTML) $(OUT_HTML)
-	@$(ECHO) "\t[HTML  ]"
-
-# HTML output task
-$(OUT_HTML): $(SRC)
-	@$(ECHO) "\t[PANDOC]"
-	@$(PANDOC_CC) 									\
-		--template=$(TEMPLATES)/html/default.html5	\
-		-S											\
-		--css=$(CSS_DIR)							\
-		$^ -o $@
-
-# create bin directory
-$(BIN):
-	@$(ECHO) "\t[MKDIR ]"
-	@$(MKDIR) $(BIN)
+# create out directory
+$(OUT):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT)
 
 # cleanup task
 clean:
-	@$(ECHO) "\t[RM    ]"
-	@$(RM) $(BIN)
+	@$(ECHO) "\t[RM    ] $@"
+	@$(RM) $(OUT)
 
