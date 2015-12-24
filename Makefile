@@ -155,3 +155,6 @@ asme-one-col:
 	@$(MKDIR) $(OUT_LATEX_ASME)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/asme/one-column/
 
+paper-simple:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/paper-simple/
+
