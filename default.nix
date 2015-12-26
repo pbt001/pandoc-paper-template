@@ -26,6 +26,8 @@ let
         collection-science
       ;
     })
+
+    pkgs.lmodern
   ];
 in
 
