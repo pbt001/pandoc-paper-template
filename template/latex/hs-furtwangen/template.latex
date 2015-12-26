@@ -65,7 +65,7 @@ $endif$
 $if(fontfamily)$
     \usepackage[$fontfamilyoptions$]{$fontfamily$}
 $else$
-    %\usepackage{lmodern}
+    \usepackage{lmodern}
 $endif$
 
 $if(linestretch)$
