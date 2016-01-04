@@ -24,6 +24,16 @@ let
         collection-pictures
         collection-plainextra
         collection-science
+
+        enumitem
+        fontspec
+        footmisc
+        geometry
+        hyperref
+        polyglossia
+        xetex
+        xltxtra
+        xunicode
       ;
     })
 
