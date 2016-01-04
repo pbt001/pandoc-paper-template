@@ -158,3 +158,6 @@ asme-one-col:
 paper-simple:
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/paper-simple/
 
+letter:
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/letter/
+
