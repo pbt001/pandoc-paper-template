@@ -5,6 +5,32 @@ author:
     affiliation: Some University
     email: fname.lname@some.university.noedu
 date: January 2016
+listings: true
+codeBlockCaptions: true
+figureTitle: "Figure"
+tableTitle: "Table"
+listingTitle: "Listing"
+titleDelimiter: ":"
+figPrefix:
+  - "Figure"
+  - "Figures"
+eqnPrefix:
+  - "Equation"
+  - "Equations"
+tblPrefix:
+  - "Table"
+  - "Tables"
+lstPrefix:
+  - "Listing"
+  - "Listings"
+secPrefix:
+  - "Section"
+  - "Sections"
+chapDelim: "."
+rangeDelim: "-"
+loftitle: "# List of Figures"
+lotTitle: "# List of Tables"
+lolTitle: "# List of Listings"
 ...
 
 This is an example. [Example]
