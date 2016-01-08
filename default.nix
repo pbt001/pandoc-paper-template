@@ -4,6 +4,7 @@ let
   env = with pkgs.haskellPackages; [
     pandoc
     pandoc-citeproc
+    pandoc-crossref
 
     (pkgs.texlive.combine {
       inherit (pkgs.texlive)
