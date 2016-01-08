@@ -1,8 +1,8 @@
 ## Code examples
 
-With some Python code
+With some Python code (in @lst:mypython)
 
-``` {#mypython .python .numberLines}
+``` {#lst:mypython .python .numberLines caption="Some Python"}
 def foo():
     return 1;
 ```

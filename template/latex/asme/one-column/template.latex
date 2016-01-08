@@ -115,6 +115,10 @@ $for(author)$
     }
 $endfor$
 
+$for(header-includes)$
+  $header-includes$
+$endfor$
+
 \begin{document}
 
 \providecommand{\tightlist}{%
