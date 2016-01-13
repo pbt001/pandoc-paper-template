@@ -11,5 +11,5 @@ pdf:
 		--variable documentclass=$(DOCUMENT_CLASS)		\
 		--variable fontsize=$(SETTING_FONTSIZE)			\
 		--template ./template.latex 					\
-		$(SRC) -o $(OUT_LATEX_DEFAULT)
+		$(SRC) -t json | $(PANDOC_FILTERS_AND_OUT) -o $(OUT_LATEX_DEFAULT)
 
