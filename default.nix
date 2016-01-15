@@ -43,32 +43,6 @@ let
     propagatedBuildInputs = with pkgs; [ python ];
   };
 
-  pandoc-filter-examples = pkgs.stdenv.mkDerivation rec {
-    version = "1.2.4";
-    name = "pandoc-filters-examples-${version}";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/jgm/pandocfilters/archive/${version}.tar.gz";
-      sha256 = "1g4k3h5zp454kih7wsk8jwkw50snirymimkxm4g9pqakynhi7sd6";
-    };
-
-    propagatedBuildInputs = [ pkgs.python pandoc-filter pygraphviz ];
-
-    installPhase = ''
-      mkdir -p $out/bin
-      mkdir -p $out/lib
-      cd examples
-      for filter in *.py; do
-        mv $filter $out/bin/pandocfilter_$filter
-      done
-
-      sed 's,caps import caps,pandocfilter_caps import caps,' -i $out/bin/pandocfilter_deemph.py
-
-      chmod +x $out/bin/pandocfilter_*
-    '';
-
-  };
-
   pygraphviz = pkgs.pythonPackages.buildPythonPackage rec {
     version = "1.2";
     name = "pygraphviz-${version}";
@@ -91,7 +65,7 @@ pkgs.stdenv.mkDerivation rec {
     buildInputs = [
       env
       pandoc-filter
-      pandoc-filter-examples
+      pygraphviz
     ];
 
 }
