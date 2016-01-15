@@ -3,13 +3,13 @@
 These examples are piped through graphviz to compile the source of them to the
 actual images:
 
-```graphviz
+```{#graphviz layout='dot'}
 digraph G {Hello->World}
 ```
 
 And a complex one goes here, from the official graphviz homepage:
 
-```graphviz
+```{#graphviz layout='dot'}
 digraph G {
 
   subgraph cluster_0 {
