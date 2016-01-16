@@ -66,6 +66,7 @@ pkgs.stdenv.mkDerivation rec {
       env
       pandoc-filter
       pygraphviz
+      pkgs.mscgen
     ];
 
 }
