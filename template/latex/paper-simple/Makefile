@@ -13,4 +13,4 @@ pdf:
 		--variable documentclass=$(DOCUMENT_CLASS)	\
 		--variable fontsize=$(SETTING_FONTSIZE)		\
 		--variable biblio-style=plain 				\
-		$(SRC) -o $(OUT_LATEX_DEFAULT)
+		$(SRC) -t json | $(PANDOC_FILTERS_AND_OUT) -o $(OUT_LATEX_DEFAULT)

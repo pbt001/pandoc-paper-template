@@ -7,4 +7,4 @@ pdf:
 	@$(ECHO) "\t[PANDOC] default"
 	@$(PANDOC_CC_PDF) 				\
 		--template ./template.latex \
-		$(SRC) -o $(OUT_LATEX_DEFAULT)
+		$(SRC) -t json | $(PANDOC_FILTERS_AND_OUT) -o $(OUT_LATEX_DEFAULT)
