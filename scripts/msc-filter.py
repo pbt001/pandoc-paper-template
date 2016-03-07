@@ -48,7 +48,7 @@ def graphviz(key, value, format, meta):
                 subprocess.close()
                 out('Created image ' + src)
             tit = ""
-            return Para([Image([alt], [src, tit])])
+            return Para([Image(['', [], []], [alt], [src, tit])])
 
 if __name__ == "__main__":
     toJSONFilter(graphviz)

@@ -32,12 +32,12 @@ let
   ];
 
   pandoc-filter = pkgs.buildPythonPackage rec {
-    version = "1.2.4";
+    version = "1.3.0";
     name = "pandoc-filters-${version}";
 
     src = pkgs.fetchurl {
       url = "https://github.com/jgm/pandocfilters/archive/${version}.tar.gz";
-      sha256 = "1g4k3h5zp454kih7wsk8jwkw50snirymimkxm4g9pqakynhi7sd6";
+      sha256 = "1sgd0h5jwk7l1r33s5hwcg4j3zs5l3059p8wdcaqy0sqvhwd06il";
     };
 
     propagatedBuildInputs = with pkgs; [ python ];
