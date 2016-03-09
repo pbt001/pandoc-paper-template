@@ -65,7 +65,7 @@ let
       sha256 = "12xfh1j0z346lkx23q0901hln3kmfyhlqvycrjx0z90cr8gm18sy";
     };
 
-    propagatedBuildInputs = with pkgs.pythonPackages; [ 
+    propagatedBuildInputs = with pkgs.pythonPackages; [
         funcparserlib
         webcolors
         pillow
@@ -74,6 +74,25 @@ let
         pep8
         mock
         nose
+    ];
+
+    doCheck = false;
+
+  };
+
+  seqdiag = pkgs.pythonPackages.buildPythonPackage rec {
+    version = "0.9.5";
+    name = "seqdiag-${version}";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/s/seqdiag/${name}.tar.gz";
+      sha256 = "0mr6fk3y4i5vw85r0pys7iar0wks76m1126i2ghpxxzy375h4i4r";
+    };
+
+    propagatedBuildInputs = with pkgs.pythonPackages; [
+        funcparserlib
+        pillow
+        blockdiag
     ];
 
     doCheck = false;
@@ -92,6 +111,7 @@ pkgs.stdenv.mkDerivation rec {
       pygraphviz
       pkgs.mscgen
       blockdiag
+      seqdiag
     ];
 
 }
