@@ -43,11 +43,6 @@ AFTER_LATEX=$(AFTER_DIR)/latex.tex
 BEFORE_HTML=$(BEFORE_DIR)/html5.html
 AFTER_HTML=$(AFTER_DIR)/html5.html
 
-#
-# Filters
-#
-FILTERS=$(foreach x,$(FILTER), | $(x))
-
 DOCUMENT_SETTINGS_PDF=	\
 	--listings			\
 	--variable fontsize=$(SETTING_FONTSIZE)			\
@@ -118,16 +113,7 @@ PANDOC_CC_PDF=$(PANDOC) 												\
 			  $(DOCUMENT_SETTINGS_PDF)
 export PANDOC_CC_PDF
 
-PIPING_SCRIPT=$(shell pwd)/scripts/piping.sh
-
-define PANDOC_FILTERS_AND_OUT =
-	bash $(PIPING_SCRIPT) | $(PANDOC) -f json
-endef
-export PANDOC_FILTERS_AND_OUT
-
 export PANDOC_CC_HTML=$(PANDOC) $(PANDOC_PARAMS) $(DOCUMENT_SETTINGS_HTML)
-
-export PANDOC_FILTER_TO=-t json | $(FILTERS) | $(PANDOC) -f json -t
 
 #
 #

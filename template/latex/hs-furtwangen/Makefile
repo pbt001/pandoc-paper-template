@@ -11,4 +11,4 @@ pdf:
 		--variable lot=true			\
 		--variable lof=true			\
 		--variable lol=true			\
-		$(SRC) -t json | $(PANDOC_FILTERS_AND_OUT) -o $(OUT_LATEX_DEFAULT)
+		$(SRC) -o $(OUT_LATEX_DEFAULT)
