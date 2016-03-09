@@ -12,6 +12,8 @@ export OUT=$(shell pwd)/bin
 export OUT_LATEX=$(OUT)/latex/
 export OUT_HTML=$(OUT)/html/
 
+export SCRIPTS=$(shell pwd)/scripts/
+
 DOCUMENT_CLASS=scrbook
 
 ## Source directory
@@ -96,6 +98,16 @@ RM_ARG=-fr
 RM=$(RM_CMD) $(RM_ARG)
 export RM
 
+#
+# Filters
+#
+export FILTER_SCRIPTS=$(shell find $(SCRIPTS) -name "*-filter.py")
+export FILTERING_ARGS=$(foreach x, $(FILTER_SCRIPTS), --filter $x)
+PIPING_SCRIPT=$(shell pwd)/scripts/piping.sh
+
+#
+# CC
+#
 PANDOC=$(shell which pandoc)
 
 PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
@@ -108,12 +120,16 @@ PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block+defin
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
 PANDOC_CC_PDF=$(PANDOC) 												\
+			  $(FILTERING_ARGS)											\
 			  $(PANDOC_PARAMS) 											\
 			  --latex-engine=pdflatex 									\
 			  $(DOCUMENT_SETTINGS_PDF)
 export PANDOC_CC_PDF
 
-export PANDOC_CC_HTML=$(PANDOC) $(PANDOC_PARAMS) $(DOCUMENT_SETTINGS_HTML)
+export PANDOC_CC_HTML=$(PANDOC) 					\
+						$(PANDOC_PARAMS) 			\
+						$(FILTERING_ARGS)			\
+						$(DOCUMENT_SETTINGS_HTML)
 
 #
 #
@@ -127,7 +143,7 @@ all:
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)
 
 # create out directory
-$(OUT):
+$(OUT): $(OUT_LATEX) $(OUT_HTML)
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT)
 
@@ -135,6 +151,11 @@ $(OUT):
 $(OUT_HTML):
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT_HTML)
+
+# create html out directory
+$(OUT_LATEX):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT_LATEX)
 
 # cleanup task
 clean:
@@ -145,17 +166,17 @@ clean:
 # Per-template tasks
 #
 
-default:
+default: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
 
-hs-furtwangen:
+hs-furtwangen: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
 
 asme-one-col: export OUT_LATEX_ASME = $(OUT_LATEX)/asme/
-asme-one-col:
+asme-one-col: $(OUT)
 	@$(MKDIR) $(OUT_LATEX_ASME)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/asme/one-column/
 
-paper-simple:
+paper-simple: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/paper-simple/
 
