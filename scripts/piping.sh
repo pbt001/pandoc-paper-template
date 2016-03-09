@@ -7,6 +7,7 @@ execute() {
     ${THIS_WD}/$1
 }
 
-execute graphviz-filter.py     | \
-execute msc-filter.py
+execute graphviz-filter.py      | \
+execute msc-filter.py           | \
+execute blockdiag-filter.py
 
