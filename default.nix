@@ -56,6 +56,30 @@ let
 
   };
 
+  blockdiag = pkgs.pythonPackages.buildPythonPackage rec {
+    version = "1.5.3";
+    name = "blockdiag-${version}";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/b/blockdiag/${name}.tar.gz";
+      sha256 = "12xfh1j0z346lkx23q0901hln3kmfyhlqvycrjx0z90cr8gm18sy";
+    };
+
+    propagatedBuildInputs = with pkgs.pythonPackages; [ 
+        funcparserlib
+        webcolors
+        pillow
+        docutils
+        reportlab
+        pep8
+        mock
+        nose
+    ];
+
+    doCheck = false;
+
+  };
+
 in
 pkgs.stdenv.mkDerivation rec {
     name = "paper";
@@ -67,6 +91,7 @@ pkgs.stdenv.mkDerivation rec {
       pandoc-filter
       pygraphviz
       pkgs.mscgen
+      blockdiag
     ];
 
 }
