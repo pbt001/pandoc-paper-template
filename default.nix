@@ -99,6 +99,26 @@ let
 
   };
 
+  actdiag = pkgs.pythonPackages.buildPythonPackage rec {
+    version = "0.5.4";
+    name = "actdiag-${version}";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/a/actdiag/${name}.tar.gz";
+      sha256 = "1bs6mcas8z1k3zflq9ms5f6sra4qq5kizgpkmqx0jhcrgmvp2c4q";
+    };
+
+    propagatedBuildInputs = with pkgs.pythonPackages; [
+        funcparserlib
+        pillow
+        reportlab
+        blockdiag
+    ];
+
+    doCheck = false;
+
+  };
+
 in
 pkgs.stdenv.mkDerivation rec {
     name = "paper";
@@ -112,6 +132,7 @@ pkgs.stdenv.mkDerivation rec {
       pkgs.mscgen
       blockdiag
       seqdiag
+      actdiag
     ];
 
 }
