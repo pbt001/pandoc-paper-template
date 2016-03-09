@@ -113,6 +113,21 @@ PANDOC_CC_PDF=$(PANDOC) 												\
 			  $(DOCUMENT_SETTINGS_PDF)
 export PANDOC_CC_PDF
 
+#
+# Filters
+#
+PIPING_SCRIPT=$(shell pwd)/scripts/piping.sh
+
+define PANDOC_FILTERS_AND_OUT =
+	bash $(PIPING_SCRIPT) | $(PANDOC) -f json
+endef
+export PANDOC_FILTERS_AND_OUT
+
+export PANDOC_FILTER_TO=-t json | $(FILTERS) | $(PANDOC) -f json -t
+
+#
+# CC
+#
 export PANDOC_CC_HTML=$(PANDOC) $(PANDOC_PARAMS) $(DOCUMENT_SETTINGS_HTML)
 
 #
@@ -127,7 +142,7 @@ all:
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)
 
 # create out directory
-$(OUT):
+$(OUT): $(OUT_LATEX) $(OUT_HTML)
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT)
 
@@ -135,6 +150,11 @@ $(OUT):
 $(OUT_HTML):
 	@$(ECHO) "\t[MKDIR ] $@"
 	@$(MKDIR) $(OUT_HTML)
+
+# create html out directory
+$(OUT_LATEX):
+	@$(ECHO) "\t[MKDIR ] $@"
+	@$(MKDIR) $(OUT_LATEX)
 
 # cleanup task
 clean:
@@ -145,17 +165,17 @@ clean:
 # Per-template tasks
 #
 
-default:
+default: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
 
-hs-furtwangen:
+hs-furtwangen: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
 
 asme-one-col: export OUT_LATEX_ASME = $(OUT_LATEX)/asme/
-asme-one-col:
+asme-one-col: $(OUT)
 	@$(MKDIR) $(OUT_LATEX_ASME)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/asme/one-column/
 
-paper-simple:
+paper-simple: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/paper-simple/
 
