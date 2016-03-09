@@ -119,6 +119,26 @@ let
 
   };
 
+  nwdiag = pkgs.pythonPackages.buildPythonPackage rec {
+    version = "1.0.4";
+    name = "nwdiag-${version}";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/n/nwdiag/${name}.tar.gz";
+      sha256 = "1yhk4bf4pp4vh3a7ipvw7yf2ci6zmc3qqmszzhnrly2ran3na980";
+    };
+
+    propagatedBuildInputs = with pkgs.pythonPackages; [
+        funcparserlib
+        pillow
+        reportlab
+        blockdiag
+    ];
+
+    doCheck = false;
+
+  };
+
 in
 pkgs.stdenv.mkDerivation rec {
     name = "paper";
@@ -133,6 +153,7 @@ pkgs.stdenv.mkDerivation rec {
       blockdiag
       seqdiag
       actdiag
+      nwdiag
     ];
 
 }
