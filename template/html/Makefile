@@ -4,7 +4,7 @@ PANDOC_CC_HTML_CALL=$(PANDOC_CC_HTML) 				\
 					--variable lof=true			\
 					--variable lol=true			\
 
-all: default
+all: default copy_images
 
 default: $(OUT_HTML)
 	@$(ECHO) "\t[PANDOC] [HTML] default"
@@ -12,6 +12,10 @@ default: $(OUT_HTML)
 		$(SRC) 						\
 		--template ./default.html5 	\
 		-o $(OUT_HTML)/default.html
+
+copy_images:
+	@$(ECHO) "\t[COPY  ] images -> $(OUT_HTML)"
+	@$(CP) ./*images $(OUT_HTML)
 
 # create html out directory
 $(OUT_HTML):

@@ -88,6 +88,11 @@ ECHO_ARG=-e
 ECHO=$(ECHO_CMD) $(ECHO_ARG)
 export ECHO
 
+CP_CMD=$(shell which cp)
+CP_ARG=-nr
+CP=$(CP_CMD) $(CP_ARG)
+export CP
+
 MKDIR_CMD=$(shell which mkdir)
 MKDIR_ARG=-p
 MKDIR=$(MKDIR_CMD) $(MKDIR_ARG)
@@ -168,6 +173,9 @@ clean:
 
 default: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
+
+html: $(OUT)
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/html/
 
 hs-furtwangen: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
