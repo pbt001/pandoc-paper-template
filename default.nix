@@ -155,6 +155,7 @@ pkgs.stdenv.mkDerivation rec {
       actdiag
       nwdiag
       pkgs.R
+      pkgs.plantuml
     ];
 
 }
