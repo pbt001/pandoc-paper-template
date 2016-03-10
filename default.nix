@@ -154,6 +154,7 @@ pkgs.stdenv.mkDerivation rec {
       seqdiag
       actdiag
       nwdiag
+      pkgs.R
     ];
 
 }
