@@ -17,7 +17,7 @@ def sha1(x):
 def out(s):
     sys.stderr.write('\t[PLTUML] ' + s + '\n');
 
-imagedir = "plantuml"
+imagedir = "plantuml-images"
 
 def pipe(cmd, data):
     p = subprocess.Popen(cmd, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
