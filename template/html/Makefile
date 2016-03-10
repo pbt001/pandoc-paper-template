@@ -14,8 +14,8 @@ default: $(OUT_HTML)
 		-o $(OUT_HTML)/default.html
 
 copy_images:
-	@$(ECHO) "\t[COPY  ] images -> $(OUT_HTML)/"
-	$(CP) ./*images $(OUT_HTML)/
+	@$(ECHO) "\t[COPY  ] images -> $(OUT_HTML)"
+	@$(CP) ./*images $(OUT_HTML)
 
 # create html out directory
 $(OUT_HTML):

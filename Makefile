@@ -174,6 +174,9 @@ clean:
 default: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/default/
 
+html: $(OUT)
+	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/html/
+
 hs-furtwangen: $(OUT)
 	@$(MAKE) $(MAKE_FLAGS) -C $(TEMPLATES)/latex/hs-furtwangen/
 
