@@ -10,6 +10,13 @@ templates.
 
 More templates will follow as I need them.
 
+# Thanks
+
+Thanks to the creator of
+[vimpreviewpandoc](https://github.com/tex/vimpreviewpandoc), where the plantuml,
+blockdiag, seqdiag, actdiag, nwdiag, packetdiag, rackdiag and R support was
+taken from.
+
 # License
 
 Everything you see is licensed under GPLv2, except stated otherwise. The
