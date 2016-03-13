@@ -16,7 +16,7 @@ def sha1(x):
     return hashlib.sha1(x.encode(sys.getfilesystemencoding())).hexdigest()
 
 def out(s):
-    sys.stderr.write('\t[GRAPHV] ' + s);
+    sys.stderr.write('\t[GRAPHV] ' + s + "\n");
 
 imagedir = "graphviz-images"
 
@@ -44,11 +44,10 @@ def graphviz(key, value, format, meta):
             if not os.path.isfile(src):
                 try:
                     os.mkdir(imagedir)
-                    out('Created directory ' + imagedir + '\n')
                 except OSError:
                     pass
                 G.draw(src)
-                out('Created image ' + src + '\n')
+                out(src)
             tit = ""
             return Para([Image(['', [], []], [alt], [src, tit])])
 
