@@ -7,13 +7,13 @@ document.
 These examples are piped through graphviz to compile the source of them to the
 actual images:
 
-```graphviz
+```{#img:graphviz1 .graphviz caption="Graphviz simpel"}
 digraph G {Hello->World}
 ```
 
 And a complex one goes here, from the official graphviz homepage:
 
-```graphviz
+```{#img:graphviz2 .graphviz caption="More complex graphviz"}
 digraph G {
 
   subgraph cluster_0 {
@@ -47,8 +47,7 @@ digraph G {
 
 Example MSC using boxes:
 
-```{#msc}
-
+```{#img:msc .msc caption="msc example"}
 msc {
 
    # The entities
@@ -70,13 +69,13 @@ msc {
 }
 ```
 
-```blockdiag
+```{#img:blockdiag .blockdiag caption="Blockdiag example"}
 blockdiag {
 A -> B -> C
 }
 ```
 
-```seqdiag
+```{#img:seqdiag .seqdiag caption="seqdiag example"}
 seqdiag {
   browser  -> webserver [label = "GET /index.html"];
   browser <-- webserver;
@@ -87,7 +86,7 @@ seqdiag {
 }
 ```
 
-```actdiag
+```{#img:actdiag .actdiag caption="actdiag example"}
 actdiag {
   write -> convert -> image
 
@@ -102,7 +101,7 @@ actdiag {
 }
 ```
 
-```nwdiag
+```{#img:nwdiag .nwdiag caption="nwdiag example"}
 nwdiag {
   network dmz {
       address = "210.x.x.x/24"
@@ -121,7 +120,7 @@ nwdiag {
 }
 ```
 
-```packetdiag
+```{#img:packetdiag .packetdiag caption="packetdiag example"}
 {
   colwidth = 32
   node_height = 72
@@ -146,7 +145,7 @@ nwdiag {
 }
 ```
 
-```rackdiag
+```{#img:rackdiag .rackdiag caption="rackdiag example"}
 rackdiag {
   // define height of rack
   16U;
@@ -162,7 +161,7 @@ rackdiag {
 }
 ```
 
-```r
+```{#img:r .r caption="r example"}
 y <- c(1,4,9,13,10)
 x <- c(1,2,3,4, 5 )
 xx <- seq(1, 5, length.out=250)
@@ -184,7 +183,7 @@ labels <- c(label1, fnc1, label2, fnc2)
 legend("topleft", bty="n", legend=as.expression(labels))
 ```
 
-```plantuml
+```{#img:plantuml .plantuml caption="plantuml example"}
 @startuml
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response
