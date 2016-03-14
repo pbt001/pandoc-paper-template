@@ -23,3 +23,17 @@ Everything you see is licensed under GPLv2, except stated otherwise. The
 templates which live under the './template' directory are not necessarily
 written by me and remain under their respective license.
 
+---
+
+# Contrib / Support
+
+This repo is public, yes. This repo is GPLv2, yes. But I not care about your
+bugs here. If you find a bug, fix it yourself. I'd happily apply patches, as
+long as they do not break _my_ workflow, but I won't help you with your problems
+as long as this stuff here works for me.
+
+Reason: This is mainly because I have to write thesis, work and some other
+commitments. It does not mean that this state will not change, maybe I will
+support this at some time in the future, but for now, this is because _I_ need
+this functionality.
+
