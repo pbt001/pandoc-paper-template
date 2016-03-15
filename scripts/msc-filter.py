@@ -27,7 +27,7 @@ def mscgen(key, value, format, meta):
         [[ident, classes, keyvals], code] = value
         caption = "caption"
 
-        if ident == "msc":
+        if "msc" in classes:
             filename = sha1(code)
             if format == "html":
                 filetype = "png"
