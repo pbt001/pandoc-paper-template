@@ -33,11 +33,10 @@ lotTitle: "# List of Tables"
 lolTitle: "# List of Listings"
 ...
 
-This is an example. [Example]
-
 # Examples
 
-Here go some examples, so we can see what this compiles to
+Here go some \Gls{Example}, so we can see what this compiles to. This example is
+taken from [see @examplebibentry, page 15 ff.].
 
 ## List examples
 
