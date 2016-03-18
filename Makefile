@@ -120,7 +120,8 @@ PANDOC_BIBLIO=$(foreach x, $(BIB), --bibliography=$(x))
 PANDOC_PARAMS=-r markdown+simple_tables+table_captions+yaml_metadata_block+definition_lists+footnotes+inline_notes	\
 			  --filter pandoc-crossref										\
 			  --filter pandoc-citeproc										\
-			  $(PANDOC_BIBLIO)
+			  $(PANDOC_BIBLIO)												\
+			  --biblatex
 
 PANDOC_CC=$(PANDOC) $(PANDOC_PARAMS)
 
