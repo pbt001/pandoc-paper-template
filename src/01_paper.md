@@ -31,6 +31,18 @@ rangeDelim: "-"
 loftitle: "# List of Figures"
 lotTitle: "# List of Tables"
 lolTitle: "# List of Listings"
+link-citations: true
+
+references:
+- id: examplebibentry
+  type: no-type
+  author:
+  - family: example
+  issued:
+  - year: '1970'
+    month: '01'
+  title: example
+  URL: http://example.com
 ...
 
 # Examples
