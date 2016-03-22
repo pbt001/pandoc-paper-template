@@ -1,2 +1,8 @@
-bin
+*blockdiag-images/
+*blockdiag/
 *graphviz-images/
+*msc-images/
+*plantuml-images/
+*plantuml/
+*r-images/
+bin
